@@ -69,10 +69,10 @@ github.com/litsea/gin-slog v0.1.0 h1:UgoeMCCN9ScYFggyfBenUWYDOptCRKDjRRQucqlXgKs
 github.com/litsea/gin-slog v0.1.0/go.mod h1:KI/DEJHyWpXCSAznupBGF3DNvo8LtAJDn6bZyjY+fkU=
 github.com/litsea/i18n v0.2.0 h1:GkFt0E/Gma97lvL04e8UAPQBfsWQbBTaIF7lz9teCgE=
 github.com/litsea/i18n v0.2.0/go.mod h1:MOYEPvVKwJKjBoh4j4mBqMQgupf5+bqpyCM8wDboEmA=
-github.com/litsea/log-slog v0.1.0 h1:Fqp7y3qA5T6TcMVJktIm8lC59eAFr4xtXBbLH4U/7SA=
-github.com/litsea/log-slog v0.1.0/go.mod h1:twZnIgjwerS4hpeDZyCQH0QhLX2sf2X9tFkXt7M5jyI=
-github.com/litsea/sentry v0.1.0 h1:V9HqCCyQx8F7WIEu+r56fk6ShgEyTZ1szAA5lJQ5O5E=
-github.com/litsea/sentry v0.1.0/go.mod h1:xTScNSeNH+bhTN039pChRrqy532Y8Ptr3v6kkMk4y/0=
+github.com/litsea/log-slog v0.2.0 h1:mf8RLnpeELPRkd6l5Gl9AHbJnhK61Xzzfzc7C4y58P8=
+github.com/litsea/log-slog v0.2.0/go.mod h1:M5idUb6VziPsAyDidP8KmV09dgpHMeAB7dkH69YH8xs=
+github.com/litsea/sentry-slog v0.2.0 h1:W7WDmpqQIS5u7wlZ9mqAKntRIKdD2QkHMEATnlZVUow=
+github.com/litsea/sentry-slog v0.2.0/go.mod h1:cO5rsN1UpkaFJtXJoz3O/sZVyEVO5252TkdF9oo2b1U=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
