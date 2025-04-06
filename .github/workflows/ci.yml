@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  golang-ci:
+    uses: litsea/actions/.github/workflows/golang-ci.yml@main
+
+  golang-build-test:
+    uses: litsea/actions/.github/workflows/golang-build-test.yml@main
+    with:
+      command: |
+        make build
