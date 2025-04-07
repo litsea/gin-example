@@ -39,4 +39,9 @@ func newRouter(r *gin.Engine) {
 
 		api.Error(ctx, fmt.Errorf("err-unknown"))
 	})
+
+	r.HandleMethodNotAllowed = true
+	r.NoMethod(api.HandleMethodNotAllowed())
+	r.NoRoute(api.HandleNotFound())
+	r.GET("/v1/health", api.HandleHealthCheck())
 }
