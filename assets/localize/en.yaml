@@ -1,1 +1,2 @@
 errTest: "test error"
+errNotAdmin: "not admin"
