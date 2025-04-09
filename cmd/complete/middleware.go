@@ -2,32 +2,26 @@ package complete
 
 import (
 	"log/slog"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
 	"github.com/litsea/gin-api/cors"
 	log "github.com/litsea/gin-api/log"
 	g18n "github.com/litsea/gin-i18n"
-	ginslog "github.com/litsea/gin-slog"
 	"github.com/litsea/i18n"
-	sloggin "github.com/samber/slog-gin"
 	"golang.org/x/text/language"
 
 	"github.com/litsea/gin-example/assets"
 )
 
-func addMiddleware(r *gin.Engine, l *slog.Logger) {
-	// gin log for gin-api, gin-i18n
-	gl := log.New(l, ginslog.AddCustomAttributes)
-
-	// middleware for capture gin request/response
-	gsl := ginslog.New(
-		l,
-		ginslog.WithFilters(
-			sloggin.IgnorePath("/v1/health"),
-			sloggin.IgnoreStatusLessThan(http.StatusInternalServerError),
-		),
+func addMiddleware(r *gin.Engine, sl *slog.Logger) {
+	// logger for gin-api and gin-i18n
+	l := log.New(
+		sl,
+		log.WithRequestHeader(true),
+		log.WithRequestBody(true),
+		log.WithUserAgent(true),
+		log.WithStackTrace(true),
 	)
 
 	// i18n
@@ -39,12 +33,12 @@ func addMiddleware(r *gin.Engine, l *slog.Logger) {
 				i18n.EmbedLoader(assets.Localize, "./localize/"),
 			),
 		),
-		g18n.WithLogger(gl),
+		g18n.WithLogger(l),
 	)
 
 	r.Use(
-		log.Middleware(gl),
-		gsl,
+		log.Middleware(l),
+		api.Recovery(api.HandleRecovery()),
 		gi.Localize(),
 		cors.New(cors.WithAllowOrigin([]string{"http://localhost:*"})),
 	)
