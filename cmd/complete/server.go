@@ -5,16 +5,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	log "github.com/litsea/log-slog"
+	"github.com/spf13/viper"
+
+	"github.com/litsea/gin-example/config"
 )
 
-func newServer() error {
+func newServer(v *viper.Viper) error {
 	r := gin.New()
 
-	addMiddleware(r, log.Get())
-	newRouter(r)
+	addMiddleware(r, v, log.Get())
+	newRouter(r, v)
 
-	if err := r.Run(":8080"); err != nil {
-		return fmt.Errorf("failed to start server: %w", err)
+	addr := fmt.Sprintf("%s:%d", v.GetString(config.KeyHost), v.GetInt(config.KeyPort))
+	if err := r.Run(addr); err != nil {
+		return fmt.Errorf("failed to start server %s: %w", addr, err)
 	}
 
 	return nil

@@ -2,9 +2,7 @@ package config
 
 import (
 	"fmt"
-	"net/http"
 	"os"
-	"time"
 
 	log "github.com/litsea/log-slog"
 	"github.com/spf13/viper"
@@ -12,29 +10,32 @@ import (
 	"github.com/litsea/gin-example/version"
 )
 
-func setDefault() {
+func setDefault(v *viper.Viper) {
+	v.SetDefault(KeyHost, "0.0.0.0")
+	v.SetDefault(KeyPort, 8080)
+	v.SetDefault(KeyCORSAllowOrigins, []string{"*"})
 }
 
-func ReadConfig(cfgFile, configPath string) error {
+func ReadConfig(v *viper.Viper, cfgFile, configPath string) error {
 	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
+		v.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName("app")
-		viper.AddConfigPath(configPath)
+		v.SetConfigName("app")
+		v.AddConfigPath(configPath)
 	}
 
-	err := viper.ReadInConfig()
+	err := v.ReadInConfig()
 	if err != nil {
 		return fmt.Errorf("config.ReadConfig: %w", err)
 	}
 
-	setDefault()
+	setDefault(v)
 
 	return nil
 }
 
-func InitLogger() {
-	logCfg := viper.Sub("log")
+func InitLogger(v *viper.Viper) {
+	logCfg := v.Sub(KeyLog)
 	logCfg.Set("rev", version.GitRev)
 
 	err := log.Set(logCfg)
@@ -44,25 +45,4 @@ func InitLogger() {
 	}
 
 	log.Info("logger initialized")
-}
-
-func InitProfiler(host string, port int) {
-	if port <= 0 {
-		return
-	}
-
-	go func() {
-		log.Info("pprof listening...", "host", host, "port", port)
-		srv := &http.Server{
-			Addr:              fmt.Sprintf("%s:%d", host, port),
-			ReadHeaderTimeout: 30 * time.Second,
-		}
-
-		err := srv.ListenAndServe()
-		if err != nil {
-			log.Error("pprof listen failed", "err", err)
-
-			return
-		}
-	}()
 }

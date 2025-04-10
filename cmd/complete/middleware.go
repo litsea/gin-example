@@ -9,12 +9,14 @@ import (
 	log "github.com/litsea/gin-api/log"
 	g18n "github.com/litsea/gin-i18n"
 	"github.com/litsea/i18n"
+	"github.com/spf13/viper"
 	"golang.org/x/text/language"
 
 	"github.com/litsea/gin-example/assets"
+	"github.com/litsea/gin-example/config"
 )
 
-func addMiddleware(r *gin.Engine, sl *slog.Logger) {
+func addMiddleware(r *gin.Engine, v *viper.Viper, sl *slog.Logger) {
 	// logger for gin-api and gin-i18n
 	l := log.New(
 		sl,
@@ -40,6 +42,6 @@ func addMiddleware(r *gin.Engine, sl *slog.Logger) {
 		log.Middleware(l),
 		api.Recovery(api.HandleRecovery()),
 		gi.Localize(),
-		cors.New(cors.WithAllowOrigin([]string{"http://localhost:*"})),
+		cors.New(cors.WithAllowOrigin(v.GetStringSlice(config.KeyCORSAllowOrigins))),
 	)
 }
