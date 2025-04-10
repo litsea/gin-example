@@ -8,6 +8,9 @@ import (
 	"github.com/litsea/gin-api/errcode"
 	i18n "github.com/litsea/gin-i18n"
 	log "github.com/litsea/log-slog"
+	"github.com/spf13/viper"
+
+	"github.com/litsea/gin-example/config"
 )
 
 var (
@@ -15,7 +18,7 @@ var (
 	errNotAdmin = errcode.New(1002, "errNotAdmin")
 )
 
-func newRouter(r *gin.Engine) {
+func newRouter(r *gin.Engine, v *viper.Viper) {
 	r.GET("/", func(ctx *gin.Context) {
 		api.Success(ctx, "OK")
 	})
@@ -74,5 +77,6 @@ func newRouter(r *gin.Engine) {
 	r.HandleMethodNotAllowed = true
 	r.NoMethod(api.HandleMethodNotAllowed())
 	r.NoRoute(api.HandleNotFound())
+	api.RouteRegisterPprof(r, v.GetString(config.KeyPprofToken))
 	r.GET("/v1/health", api.HandleHealthCheck())
 }
