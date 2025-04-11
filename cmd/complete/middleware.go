@@ -2,12 +2,14 @@ package complete
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
 	"github.com/litsea/gin-api/cors"
 	"github.com/litsea/gin-api/errcode"
 	log "github.com/litsea/gin-api/log"
+	"github.com/litsea/gin-api/ratelimit"
 	g18n "github.com/litsea/gin-i18n"
 	"github.com/litsea/i18n"
 	"github.com/spf13/viper"
@@ -17,6 +19,8 @@ import (
 	"github.com/litsea/gin-example/assets"
 	"github.com/litsea/gin-example/config"
 )
+
+var IpLimiter = ratelimit.NewLimiter(10, time.Minute)
 
 func addMiddleware(r *gin.Engine, v *viper.Viper, l log.Logger) {
 	// i18n
