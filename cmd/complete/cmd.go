@@ -11,8 +11,8 @@ func New(v *viper.Viper) *cobra.Command {
 	cmd = &cobra.Command{
 		Use:   "complete",
 		Short: "complete gin",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return newServer(v)
+		Run: func(cmd *cobra.Command, args []string) {
+			newServer(v)
 		},
 	}
 

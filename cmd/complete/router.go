@@ -2,6 +2,7 @@ package complete
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
@@ -72,6 +73,11 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		} else {
 			api.Success(ctx, req.Name)
 		}
+	})
+
+	r.GET("/long-time", func(ctx *gin.Context) {
+		time.Sleep(10 * time.Second)
+		api.Success(ctx, "long time ago")
 	})
 
 	r.HandleMethodNotAllowed = true
