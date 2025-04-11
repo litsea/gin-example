@@ -80,6 +80,10 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		api.Success(ctx, "long time ago")
 	})
 
+	r.GET("/rate-limit", IpLimiter.Middleware(), func(ctx *gin.Context) {
+		api.Success(ctx, "rate-limit")
+	})
+
 	r.HandleMethodNotAllowed = true
 	r.NoMethod(api.HandleMethodNotAllowed())
 	r.NoRoute(api.HandleNotFound())
