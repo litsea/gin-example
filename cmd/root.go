@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 
 	"github.com/litsea/gin-example/cmd/complete"
 	"github.com/litsea/gin-example/config"
@@ -14,7 +13,7 @@ import (
 
 var (
 	cfgFile string
-	v       *viper.Viper
+	cfgType string
 )
 
 var ErrInvalidCommand = errors.New("invalid command")
@@ -36,21 +35,14 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile,
-		"config", "", "config file (default is ./app.yaml)")
+		"conf-file", "./app.yaml", "config file (default is ./app.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgType,
+		"conf-type", "yaml", "config type (default is yaml)")
 
-	v = viper.GetViper()
-	rootCmd.AddCommand(complete.New(v))
-}
+	cobra.OnInitialize(func() {
+		config.Init(cfgFile, cfgType)
+	})
 
-func initConfig() {
-	if err := config.ReadConfig(v, cfgFile, "./"); err == nil {
-		fmt.Printf("using config file: %s\n", viper.ConfigFileUsed())
-		v.WatchConfig()
-		config.InitLogger(v)
-	} else {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	rootCmd.AddCommand(complete.New())
 }

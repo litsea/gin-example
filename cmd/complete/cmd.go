@@ -2,17 +2,18 @@ package complete
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+
+	"github.com/litsea/gin-example/config"
 )
 
 var cmd *cobra.Command
 
-func New(v *viper.Viper) *cobra.Command {
+func New() *cobra.Command {
 	cmd = &cobra.Command{
 		Use:   "complete",
 		Short: "complete gin",
 		Run: func(cmd *cobra.Command, args []string) {
-			newServer(v)
+			newServer(config.V())
 		},
 	}
 

@@ -41,7 +41,8 @@ func gracefulRunServer(v *viper.Viper, r *gin.Engine, l apilog.Logger) {
 		graceful.WithLogger(l),
 		graceful.WithCleanup(func() {
 			log.Info("gracefulRunServer: test cleanup...")
-			time.Sleep(5 * time.Second)
+			config.QuitWatch()
+			time.Sleep(2 * time.Second)
 		}),
 	)
 
