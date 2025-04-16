@@ -84,6 +84,28 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		api.Success(ctx, "rate-limit")
 	})
 
+	r.GET("/update-log-lvl", func(ctx *gin.Context) {
+		req := &struct {
+			Handler string `binding:"required" form:"handler"`
+			Level   string `binding:"required" form:"level"`
+		}{}
+
+		if err := ctx.ShouldBindQuery(req); err != nil {
+			api.VError(ctx, err, req)
+			return
+		}
+
+		ok := log.SetLevel(req.Handler, req.Level)
+		api.Success(ctx, ok)
+	})
+
+	r.GET("/log", func(ctx *gin.Context) {
+		log.Debug("debug test", "url", ctx.Request.URL.String())
+		log.Info("info test", "url", ctx.Request.URL.String())
+		log.Warn("warn test", "url", ctx.Request.URL.String())
+		api.Success(ctx, "OK")
+	})
+
 	r.HandleMethodNotAllowed = true
 	r.NoMethod(api.HandleMethodNotAllowed())
 	r.NoRoute(api.HandleNotFound())

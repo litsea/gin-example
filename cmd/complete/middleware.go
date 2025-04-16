@@ -40,9 +40,11 @@ func addMiddleware(r *gin.Engine, v *viper.Viper, l log.Logger) {
 		api.Recovery(api.HandleRecovery()),
 		gi.Localize(),
 		cors.New(cors.WithAllowOrigin(v.GetStringSlice(config.KeyCORSAllowOrigins))),
+		// Note: the timeout middleware will cause the panic stack loss
 		timeout.Timeout(
 			// Request timeout cannot exceed server exceed timeout `config.KeyWriteTimeout`
 			timeout.WithTimeout(v.GetDuration(config.KeyRequestTimeout)),
+			timeout.WithContentType("application/json; charset=utf-8"),
 			timeout.WithErrorHttpCode(http.StatusServiceUnavailable),
 			// TODO: no translation and content-type
 			timeout.WithDefaultMsg(errcode.ErrServiceUnavailable),

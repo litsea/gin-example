@@ -7,10 +7,10 @@ import (
 
 // Populated during build, don't touch!
 var (
-	Version   = "v0.1.0"
+	Version   = "v0.0.0"
 	GitRev    = "undefined"
 	GitBranch = "undefined"
-	BuildDate = "Fri, 17 Jun 1988 01:58:00 +0200"
+	BuildDate = "Mon, 02 Jan 2006 15:04:05 -0700"
 	// GoVersion system go version.
 	GoVersion = runtime.Version()
 	// Platform info.
