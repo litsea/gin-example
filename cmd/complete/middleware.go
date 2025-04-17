@@ -6,9 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
-	"github.com/litsea/gin-api/cors"
 	"github.com/litsea/gin-api/errcode"
-	log "github.com/litsea/gin-api/log"
+	"github.com/litsea/gin-api/log"
 	"github.com/litsea/gin-api/ratelimit"
 	g18n "github.com/litsea/gin-i18n"
 	"github.com/litsea/i18n"
@@ -35,24 +34,33 @@ func addMiddleware(r *gin.Engine, v *viper.Viper, l log.Logger) {
 		g18n.WithLogger(l),
 	)
 
-	r.Use(
+	mws := []gin.HandlerFunc{
 		log.Middleware(l),
 		api.Recovery(api.HandleRecovery()),
 		gi.Localize(),
-		cors.New(cors.WithAllowOrigin(v.GetStringSlice(config.KeyCORSAllowOrigins))),
+	}
+
+	if config.Get().MWCorsFn != nil {
+		mws = append(mws, func(c *gin.Context) {
+			config.Get().MWCorsFn(c)
+		})
+	}
+
+	mws = append(mws,
 		// Note: the timeout middleware will cause the panic stack loss
 		timeout.Timeout(
 			// Request timeout cannot exceed server exceed timeout `config.KeyWriteTimeout`
 			timeout.WithTimeout(v.GetDuration(config.KeyRequestTimeout)),
 			timeout.WithContentType("application/json; charset=utf-8"),
 			timeout.WithErrorHttpCode(http.StatusServiceUnavailable),
-			// TODO: no translation and content-type
-			timeout.WithDefaultMsg(errcode.ErrServiceUnavailable),
+			// TODO: no translation yet
+			timeout.WithDefaultMsg(errcode.ErrServiceTimeout),
 			timeout.WithGinCtxCallBack(func(c *gin.Context) {
-				l.ErrorRequest(c, "middleware: request timeout2 ", map[string]any{
-					"err": errcode.ErrServiceUnavailable,
+				l.ErrorRequest(c, "middleware: request timeout", map[string]any{
+					"err": errcode.ErrServiceTimeout,
 				})
 			}),
 		),
 	)
+	r.Use(mws...)
 }

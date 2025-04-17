@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/litsea/gin-example/config"
+	"github.com/litsea/gin-example/util"
 )
 
 func newServer(v *viper.Viper) {
@@ -24,6 +25,13 @@ func newServer(v *viper.Viper) {
 		apilog.WithUserAgent(true),
 		apilog.WithStackTrace(true),
 	)
+
+	// For test only
+	go func() {
+		defer util.RecoverFn("complete.newServer")
+		// Remove comment for testing
+		// panic("new goroutine panic not in gin")
+	}()
 
 	addMiddleware(r, v, l)
 	newRouter(r, v)
@@ -40,7 +48,7 @@ func gracefulRunServer(v *viper.Viper, r *gin.Engine, l apilog.Logger) {
 		graceful.WithWriteTimeout(v.GetDuration(config.KeyWriteTimeout)),
 		graceful.WithLogger(l),
 		graceful.WithCleanup(func() {
-			log.Info("gracefulRunServer: test cleanup...")
+			log.Info("complete.gracefulRunServer: test cleanup...")
 			config.QuitWatch()
 			time.Sleep(2 * time.Second)
 		}),

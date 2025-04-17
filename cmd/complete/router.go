@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/litsea/gin-example/config"
+	"github.com/litsea/gin-example/util"
 )
 
 var (
@@ -40,12 +41,22 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		panic("unknown panic")
 	})
 
+	// Generally do not start a new goroutine in the route, just as an example.
+	r.GET("/panic-recovery", func(ctx *gin.Context) {
+		go func() {
+			defer util.RecoverFn("complete.newRouter")
+			panic("new goroutine panic in gin")
+		}()
+
+		api.Success(ctx, "OK")
+	})
+
 	r.GET("/no-translate", func(ctx *gin.Context) {
 		api.Success(ctx, i18n.T(ctx, "NoTranslate"))
 	})
 
 	r.GET("/err-test", func(ctx *gin.Context) {
-		log.Info("err-test", "req", ctx.Request)
+		log.Info("complete.err-test", "req", ctx.Request)
 
 		api.Error(ctx, errTest)
 	})
@@ -100,15 +111,17 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 	})
 
 	r.GET("/log", func(ctx *gin.Context) {
-		log.Debug("debug test", "url", ctx.Request.URL.String())
-		log.Info("info test", "url", ctx.Request.URL.String())
-		log.Warn("warn test", "url", ctx.Request.URL.String())
+		log.Debug("complete.log: debug test", "url", ctx.Request.URL.String())
+		log.Info("complete.log: info test", "url", ctx.Request.URL.String())
+		log.Warn("complete.log: warn test", "url", ctx.Request.URL.String())
 		api.Success(ctx, "OK")
 	})
 
 	r.HandleMethodNotAllowed = true
 	r.NoMethod(api.HandleMethodNotAllowed())
 	r.NoRoute(api.HandleNotFound())
-	api.RouteRegisterPprof(r, v.GetString(config.KeyPprofToken))
+	api.RouteRegisterPprof(r, func() string {
+		return v.GetString(config.KeyPprofToken)
+	})
 	r.GET("/v1/health", api.HandleHealthCheck())
 }
