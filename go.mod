@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.35.4
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/litsea/gin-api v0.4.5
+	github.com/litsea/gin-api v0.4.6
 	github.com/litsea/gin-i18n v0.2.0
 	github.com/litsea/i18n v0.2.0
 	github.com/litsea/log-slog v0.2.4
@@ -36,7 +36,7 @@ require (
 	github.com/cdfmlr/ellipsis v0.0.1 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/didip/tollbooth/v8 v8.0.1 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
 	github.com/getsentry/sentry-go v0.32.0 // indirect
 	github.com/gin-contrib/cors v1.7.5 // indirect
 	github.com/gin-contrib/pprof v1.5.3 // indirect
