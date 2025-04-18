@@ -46,6 +46,7 @@ func gracefulRunServer(v *viper.Viper, r *gin.Engine, l apilog.Logger) {
 		),
 		graceful.WithReadTimeout(v.GetDuration(config.KeyReadTimeout)),
 		graceful.WithWriteTimeout(v.GetDuration(config.KeyWriteTimeout)),
+		graceful.WithStopTimeout(v.GetDuration(config.KeyStopTimeout)),
 		graceful.WithLogger(l),
 		graceful.WithCleanup(func() {
 			log.Info("complete.gracefulRunServer: test cleanup...")
