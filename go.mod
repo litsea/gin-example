@@ -10,7 +10,7 @@ require (
 	github.com/litsea/gin-i18n v0.2.0
 	github.com/litsea/i18n v0.2.0
 	github.com/litsea/log-slog v0.2.4
-	github.com/litsea/viper-aws v0.1.3
+	github.com/litsea/viper-aws v0.2.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	github.com/vearne/gin-timeout v0.2.1
@@ -27,6 +27,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.15 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssm v1.58.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.25.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.19 // indirect
