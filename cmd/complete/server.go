@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/litsea/gin-api/graceful"
 	apilog "github.com/litsea/gin-api/log"
+	"github.com/litsea/kit/profiler"
 	log "github.com/litsea/log-slog"
 	"github.com/spf13/viper"
 
@@ -15,6 +16,23 @@ import (
 )
 
 func newServer(v *viper.Viper) {
+	// Enable the profiler only when the server address provided
+	if v.GetString(config.KeyProfilerServerAddress) != "" {
+		_, err := profiler.Start(
+			// appName.serviceName.env
+			"gin-example.complete."+v.GetString(config.KeyEnv),
+			v.GetString(config.KeyProfilerServerAddress),
+			profiler.WithAuth(
+				v.GetString(config.KeyProfilerAuthUsername),
+				v.GetString(config.KeyProfilerAuthPassword),
+			),
+			profiler.WithDebug(v.GetBool(config.KeyProfilerDebug)),
+		)
+		if err != nil {
+			log.Error("complete.NewServer: failed to start profiler", "err", err)
+		}
+	}
+
 	r := gin.New()
 
 	// logger for gin-api, gin-i18n and other components/middlewares.

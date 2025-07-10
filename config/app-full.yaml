@@ -2,6 +2,8 @@
 # Key: config/const.go
 # Default: config/config.go#setDefault()
 
+env: local
+
 server:
   host: "0.0.0.0"
   port: 8080
@@ -36,4 +38,11 @@ log:
     handler: sentry
     dsn: ""
     env: local
-    debug: true
+    debug: false
+
+profiler:
+  server-address: ""
+  auth-username: ""
+  auth-password: ""
+  debug: false
+
