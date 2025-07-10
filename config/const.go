@@ -1,6 +1,8 @@
 package config
 
 const (
+	KeyEnv = "env"
+
 	// server
 
 	KeyHost             = "server.host"
@@ -11,6 +13,13 @@ const (
 	KeyStopTimeout      = "server.stop-timeout"
 	KeyCORSAllowOrigins = "server.cors.allow-origins"
 	KeyPprofToken       = "server.pprof-token" //nolint:gosec
+
+	// profiler
+
+	KeyProfilerServerAddress = "profiler.server-address"
+	KeyProfilerAuthUsername  = "profiler.auth-username"
+	KeyProfilerAuthPassword  = "profiler.auth-password" //nolint:gosec
+	KeyProfilerDebug         = "profiler.debug"
 
 	// log
 
