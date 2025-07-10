@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
 	"github.com/litsea/gin-api/errcode"
+	apilog "github.com/litsea/gin-api/log"
 	i18n "github.com/litsea/gin-i18n"
 	log "github.com/litsea/log-slog"
 	"github.com/spf13/viper"
@@ -114,6 +115,9 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		log.Debug("complete.log: debug test", "url", ctx.Request.URL.String())
 		log.Info("complete.log: info test", "url", ctx.Request.URL.String())
 		log.Warn("complete.log: warn test", "url", ctx.Request.URL.String())
+		apilog.DebugRequest(ctx, "complete.log: debug request log test", nil)
+		apilog.InfoRequest(ctx, "complete.log: info request log test", nil)
+		apilog.WarnRequest(ctx, "complete.log: warn request log test", nil)
 		api.Success(ctx, "OK")
 	})
 
