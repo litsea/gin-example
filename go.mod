@@ -10,7 +10,7 @@ require (
 	github.com/litsea/gin-i18n v0.2.1
 	github.com/litsea/i18n v0.2.1
 	github.com/litsea/kit v0.1.3
-	github.com/litsea/log-slog v0.2.5
+	github.com/litsea/log-slog v0.2.6
 	github.com/litsea/viper-aws v0.2.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
@@ -39,7 +39,7 @@ require (
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/didip/tollbooth/v8 v8.0.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
-	github.com/getsentry/sentry-go v0.34.1 // indirect
+	github.com/getsentry/sentry-go v0.35.0 // indirect
 	github.com/gin-contrib/cors v1.7.6 // indirect
 	github.com/gin-contrib/pprof v1.5.3 // indirect
 	github.com/gin-contrib/sse v1.1.0 // indirect
@@ -57,7 +57,7 @@ require (
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.11 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
-	github.com/litsea/sentry-slog v0.2.1 // indirect
+	github.com/litsea/sentry-slog v0.2.2 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
