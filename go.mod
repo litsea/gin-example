@@ -8,7 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/litsea/gin-api v0.4.7
 	github.com/litsea/gin-i18n v0.2.0
-	github.com/litsea/i18n v0.2.0
+	github.com/litsea/i18n v0.2.1
 	github.com/litsea/kit v0.1.1
 	github.com/litsea/log-slog v0.2.5
 	github.com/litsea/viper-aws v0.2.1
