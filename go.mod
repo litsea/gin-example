@@ -14,7 +14,7 @@ require (
 	github.com/litsea/viper-aws v0.2.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
-	github.com/vearne/gin-timeout v0.2.1
+	github.com/vearne/gin-timeout v0.2.2
 	golang.org/x/text v0.27.0
 )
 
