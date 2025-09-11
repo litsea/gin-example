@@ -15,7 +15,7 @@ require (
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.20.1
 	github.com/vearne/gin-timeout v0.2.2
-	golang.org/x/text v0.28.0
+	golang.org/x/text v0.29.0
 )
 
 require (
