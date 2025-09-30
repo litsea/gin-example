@@ -2,6 +2,8 @@ package complete
 
 import (
 	"fmt"
+	"image"
+	"image/png"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +26,11 @@ var (
 func newRouter(r *gin.Engine, v *viper.Viper) {
 	r.GET("/", func(ctx *gin.Context) {
 		api.Success(ctx, "OK")
+	})
+
+	r.GET("/favicon.ico", func(ctx *gin.Context) {
+		ctx.Header("Content-Type", "image/png")
+		_ = png.Encode(ctx.Writer, image.NewRGBA(image.Rect(0, 0, 1, 1)))
 	})
 
 	r.GET("/user", func(ctx *gin.Context) {
@@ -87,7 +94,14 @@ func newRouter(r *gin.Engine, v *viper.Viper) {
 		}
 	})
 
-	r.GET("/long-time", func(ctx *gin.Context) {
+	r.GET("/long-time", TimeoutMiddleware(2*time.Second), func(c *gin.Context) {
+		// record logs here to trace the exact code location in the call stack
+		c.Next()
+		if c.Writer.Status() == errcode.ErrServiceTimeout.HTTPCode() {
+			apilog.ErrorRequest(c, errcode.ErrServiceTimeout.Error(),
+				map[string]any{"err": errcode.ErrServiceTimeout})
+		}
+	}, func(ctx *gin.Context) {
 		time.Sleep(10 * time.Second)
 		api.Success(ctx, "long time ago")
 	})

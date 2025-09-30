@@ -16,7 +16,6 @@ func setDefault(v *viper.Viper) {
 	v.SetDefault(KeyPort, 8080)
 	v.SetDefault(KeyReadTimeout, 15*time.Second)
 	v.SetDefault(KeyWriteTimeout, 15*time.Second)
-	v.SetDefault(KeyRequestTimeout, 15*time.Second)
 	v.SetDefault(KeyStopTimeout, 30*time.Second)
 	v.SetDefault(KeyCORSAllowOrigins, []string{"*"})
 }
