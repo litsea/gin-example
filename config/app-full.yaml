@@ -9,7 +9,6 @@ server:
   port: 8080
   read-timeout: 15s
   write-timeout: 15s
-  request-timeout: 10s
   stop-timeout: 30s
   pprof-token: "<change me>"
   cors:

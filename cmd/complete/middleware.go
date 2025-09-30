@@ -1,9 +1,9 @@
 package complete
 
 import (
-	"net/http"
 	"time"
 
+	"github.com/gin-contrib/timeout"
 	"github.com/gin-gonic/gin"
 	api "github.com/litsea/gin-api"
 	"github.com/litsea/gin-api/errcode"
@@ -12,7 +12,6 @@ import (
 	g18n "github.com/litsea/gin-i18n"
 	"github.com/litsea/i18n"
 	"github.com/spf13/viper"
-	timeout "github.com/vearne/gin-timeout"
 	"golang.org/x/text/language"
 
 	"github.com/litsea/gin-example/assets"
@@ -21,7 +20,7 @@ import (
 
 var IpLimiter = ratelimit.NewLimiter(10, time.Minute)
 
-func addMiddleware(r *gin.Engine, v *viper.Viper, l log.Logger) {
+func addMiddleware(r *gin.Engine, _ *viper.Viper, l log.Logger) {
 	// i18n
 	gi := g18n.New(
 		g18n.WithOptions(
@@ -46,21 +45,14 @@ func addMiddleware(r *gin.Engine, v *viper.Viper, l log.Logger) {
 		})
 	}
 
-	mws = append(mws,
-		// Note: the timeout middleware will cause the panic stack loss
-		timeout.Timeout(
-			// Request timeout cannot exceed server exceed timeout `config.KeyWriteTimeout`
-			timeout.WithTimeout(v.GetDuration(config.KeyRequestTimeout)),
-			timeout.WithContentType("application/json; charset=utf-8"),
-			timeout.WithErrorHttpCode(http.StatusServiceUnavailable),
-			// TODO: no translation yet
-			timeout.WithDefaultMsg(errcode.ErrServiceTimeout),
-			timeout.WithGinCtxCallBack(func(c *gin.Context) {
-				l.ErrorRequest(c, "middleware: request timeout", map[string]any{
-					"err": errcode.ErrServiceTimeout,
-				})
-			}),
-		),
-	)
 	r.Use(mws...)
+}
+
+func TimeoutMiddleware(t time.Duration) gin.HandlerFunc {
+	return timeout.New(
+		timeout.WithTimeout(t),
+		timeout.WithResponse(func(c *gin.Context) {
+			api.Error(c, errcode.ErrServiceTimeout)
+		}),
+	)
 }
