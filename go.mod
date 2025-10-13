@@ -15,7 +15,7 @@ require (
 	github.com/litsea/viper-aws v0.2.3
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.21.0
-	golang.org/x/text v0.29.0
+	golang.org/x/text v0.30.0
 )
 
 require (
