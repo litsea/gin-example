@@ -13,7 +13,7 @@ require (
 	github.com/litsea/kit v0.1.4
 	github.com/litsea/log-slog v0.2.7
 	github.com/litsea/viper-aws v0.2.3
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	golang.org/x/text v0.32.0
 )
